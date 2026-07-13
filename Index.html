@@ -85,57 +85,17 @@
     padding:28px;
     box-shadow:0 20px 50px rgba(0,0,0,0.25);
   }
-  .signup-card p{
+  .signup-card p.intro{
     font-size:13px;
     color:#555555;
     margin:0 0 16px 0;
     line-height:1.5;
   }
-  form{
-    display:flex;
-    gap:8px;
-  }
-  input[type="email"]{
-    flex:1;
-    padding:14px 14px;
-    border:1px solid #dddddd;
-    font-size:15px;
-    font-family:Arial, sans-serif;
-    color:var(--ink);
-    border-radius:2px;
-  }
-  input[type="email"]:focus{
-    outline:2px solid var(--navy);
-    outline-offset:1px;
-    border-color:var(--navy);
-  }
-  button{
-    background:var(--red);
-    color:#ffffff;
-    border:none;
-    padding:0 22px;
-    font-size:14px;
-    font-weight:bold;
-    letter-spacing:0.3px;
-    cursor:pointer;
-    border-radius:2px;
-    white-space:nowrap;
-  }
-  button:hover{ background:#a6091a; }
-  button:focus-visible{ outline:2px solid var(--navy); outline-offset:2px; }
 
   .fineprint{
     font-size:11px;
     color:#999999;
     margin-top:12px;
-  }
-
-  .confirm{
-    display:none;
-    font-size:14px;
-    color:var(--navy);
-    font-weight:bold;
-    padding:8px 0;
   }
 
   /* VALUE PROPS */
@@ -167,7 +127,6 @@
   }
   @media (max-width:640px){
     .props{ grid-template-columns:1fr; }
-    form{ flex-direction:column; }
   }
 
   footer{
@@ -216,14 +175,12 @@
     <p class="tagline">All you need to know to own a vacation apartment in Spain</p>
 
     <div class="signup-card">
-      <p>One email a week: market news, five regions' worth of picks, mortgage rates,
+      <p class="intro">One email a week: market news, five regions' worth of picks, mortgage rates,
       and the practical know-how nobody tells you before you sign.</p>
 
-      <form id="signup-form" action="#REPLACE_WITH_YOUR_ESP_FORM_ACTION" method="post">
-        <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address">
-        <button type="submit">Subscribe</button>
-      </form>
-      <p class="confirm" id="confirm-msg">You're on the list — check your inbox to confirm.</p>
+      <!-- beehiiv embedded subscribe form: renders and connects automatically -->
+      <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="cf1471b3-0aa8-4cf2-be5b-8a0c19f1d88c"></script>
+
       <p class="fineprint">Free, weekly, unsubscribe anytime. No spam, just Spain.</p>
     </div>
   </section>
@@ -232,19 +189,6 @@
     Der Spanischtraum &middot; Not investment or tax advice &middot;
     <a href="#">Privacy</a>
   </footer>
-
-<script>
-  // Demo-only confirmation state. Replace the form's "action" attribute above with
-  // your email provider's real form endpoint (Beehiiv, Mailchimp, etc.) before going live —
-  // this page cannot store subscribers on its own.
-  document.getElementById('signup-form').addEventListener('submit', function(e){
-    // Remove this preventDefault once a real form action is wired up, so the
-    // browser actually submits to your email provider.
-    e.preventDefault();
-    document.getElementById('confirm-msg').style.display = 'block';
-    this.reset();
-  });
-</script>
 
 </body>
 </html>
