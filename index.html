@@ -1,0 +1,203 @@
+<!-- redeploy trigger -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Der Spanischtraum — Alles, was du für deine Ferienwohnung in Spanien wissen musst</title>
+<style>
+  :root{
+    --navy:#16324f;
+    --navy-deep:#0e2338;
+    --sun:#F5B921;
+    --red:#C60B1E;
+    --sand:#F3ECDD;
+    --ink:#1a1a1a;
+    --muted:#c9d6e3;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--sand);
+    font-family:Arial, Helvetica, sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+
+  .hero{
+    position:relative;
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    overflow:hidden;
+    padding:64px 24px 96px 24px;
+    text-align:center;
+  }
+  .sun-bg{
+    position:absolute;
+    top:-120px; left:50%;
+    transform:translateX(-50%);
+    width:560px; height:560px;
+    opacity:0.14;
+    pointer-events:none;
+  }
+  .brand{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:28px;
+  }
+  .brand span{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:20px;
+    font-weight:bold;
+    color:#ffffff;
+    letter-spacing:0.5px;
+  }
+  h1{
+    position:relative;
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:clamp(34px, 6vw, 56px);
+    line-height:1.1;
+    color:#ffffff;
+    margin:0 0 18px 0;
+    letter-spacing:0.2px;
+  }
+  h1 em{
+    font-style:normal;
+    color:var(--sun);
+  }
+  .tagline{
+    position:relative;
+    font-size:15px;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 40px 0;
+  }
+
+  .signup-card{
+    position:relative;
+    max-width:480px;
+    margin:0 auto;
+    background:#ffffff;
+    border-radius:2px;
+    padding:28px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.25);
+  }
+  .signup-card p.intro{
+    font-size:13px;
+    color:#555555;
+    margin:0 0 16px 0;
+    line-height:1.5;
+  }
+
+  .fineprint{
+    font-size:11px;
+    color:#999999;
+    margin-top:12px;
+  }
+
+  /* VALUE PROPS */
+  .props{
+    max-width:840px;
+    margin:0 auto;
+    padding:56px 24px 64px 24px;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:28px;
+  }
+  .prop{ text-align:left; }
+  .prop .eyebrow{
+    font-family:Georgia, serif;
+    font-size:26px;
+    color:var(--red);
+    margin-bottom:6px;
+  }
+  .prop h3{
+    font-size:15px;
+    margin:0 0 6px 0;
+    color:var(--navy);
+  }
+  .prop p{
+    font-size:13px;
+    color:#555555;
+    line-height:1.5;
+    margin:0;
+  }
+  @media (max-width:640px){
+    .props{ grid-template-columns:1fr; }
+  }
+
+  footer{
+    text-align:center;
+    padding:28px 24px 40px 24px;
+    font-size:11px;
+    color:#999999;
+  }
+</style>
+</head>
+<body>
+
+  <section class="hero">
+    <svg class="sun-bg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#C60B1E" stroke-width="6" stroke-linecap="round">
+        <path d="M100 4 C 92 20, 112 30, 100 42"/>
+        <path d="M100 158 C 92 174, 112 184, 100 196"/>
+        <path d="M4 100 C 20 92, 30 112, 42 100"/>
+        <path d="M158 100 C 174 92, 184 112, 196 100"/>
+        <path d="M28 28 C 34 44, 54 38, 50 54"/>
+        <path d="M146 146 C 152 162, 172 156, 168 172"/>
+        <path d="M172 28 C 156 34, 162 54, 146 50"/>
+        <path d="M54 146 C 38 152, 44 172, 28 168"/>
+      </g>
+      <circle cx="100" cy="100" r="42" fill="#F5B921"/>
+    </svg>
+
+    <div class="brand">
+      <svg width="26" height="26" viewBox="-2 -2 38 38" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="#C60B1E" stroke-width="3.4" stroke-linecap="round">
+          <path d="M17 1 C 15.5 3, 18.5 4.5, 17 6.5"/>
+          <path d="M17 27.5 C 15.5 29.5, 18.5 31, 17 33"/>
+          <path d="M1 17 C 3 15.5, 4.5 18.5, 6.5 17"/>
+          <path d="M27.5 17 C 29.5 15.5, 31 18.5, 33 17"/>
+          <path d="M5.6 5.6 C 6.4 7.6, 9.3 6.6, 8.9 8.9"/>
+          <path d="M25.1 25.1 C 25.9 27.1, 28.8 26.1, 28.4 28.4"/>
+          <path d="M28.4 5.6 C 26.4 6.4, 27.4 9.3, 25.1 8.9"/>
+          <path d="M8.9 25.1 C 6.9 25.9, 7.9 28.8, 5.6 28.4"/>
+        </g>
+        <circle cx="17" cy="17" r="7.5" fill="#F5B921"/>
+      </svg>
+      <span>Der Spanischtraum</span>
+    </div>
+
+    <h1>Dein <em>casa al sol</em>,<br>ganz ohne Rätselraten.</h1>
+    <p class="tagline">Alles, was du für deine Ferienwohnung in Spanien wissen musst</p>
+
+    <div class="signup-card">
+      <p class="intro">Einmal wöchentlich per E-Mail: aktuelle Marktnews, ausgewählte Angebote aus den
+      gefragtesten Regionen, Hypothekenzinsen und das praktische Wissen, das dir sonst keiner verrät,
+      bevor du unterschreibst.</p>
+
+      <!-- beehiiv embedded subscribe form (iframe + script, per beehiiv's official embed code) -->
+      <iframe src="https://embeds.beehiiv.com/cf1471b3-0aa8-4cf2-be5b-8a0c19f1d88c?slim=true"
+              data-test-id="beehiiv-embed"
+              height="52"
+              frameborder="0"
+              scrolling="no"
+              style="width:100%; margin:0; border-radius:0px !important; background-color:transparent;">
+      </iframe>
+      <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
+
+      <p class="fineprint">Kostenlos, wöchentlich, jederzeit kündbar. Kein Spam, nur Spanien.</p>
+    </div>
+  </section>
+
+  <footer>
+    Der Spanischtraum &middot; Keine Anlage- oder Steuerberatung &middot;
+    <a href="#">Datenschutz</a>
+  </footer>
+
+</body>
+</html>
