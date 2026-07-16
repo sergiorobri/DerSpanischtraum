@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cash Flow Calculator | Der Spanischtraum</title>
+<style>
+  :root{
+    --navy:#16324f;
+    --navy-deep:#0e2338;
+    --blue-light:#eaf1f8;
+    --blue-border:#c3d5e6;
+    --red:#C60B1E;
+    --paper:#F3ECDD;
+    --ink:#1a1a1a;
+    --muted:#666666;
+    --line:#e2e6ea;
+    --good:#1f7a4d;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    font-family:Arial, Helvetica, sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  header{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    padding:26px 0;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand img{width:30px;height:30px;display:block;}
+  .brand span{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:20px;font-weight:bold;color:#fff;letter-spacing:0.3px;
+  }
+
+  .hero{padding:40px 0 4px 0;}
+  .eyebrow{
+    font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--red);font-weight:bold;margin:0 0 10px 0;
+  }
+  h1{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:clamp(26px,4vw,36px);
+    line-height:1.15;color:var(--navy);margin:0 0 10px 0;
+  }
+  .hero p{color:var(--muted);font-size:14px;max-width:560px;line-height:1.6;margin:0 0 28px 0;}
+
+  .toggle{
+    display:inline-flex;border:1px solid var(--navy);border-radius:999px;
+    overflow:hidden;margin-bottom:32px;
+  }
+  .toggle button{
+    font-family:Arial,sans-serif;font-size:13px;font-weight:bold;
+    padding:10px 22px;border:none;background:#fff;color:var(--navy);
+    cursor:pointer;letter-spacing:0.3px;
+  }
+  .toggle button.active{background:var(--navy);color:#fff;}
+
+  .grid{
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:0;
+    border:1px solid var(--line);margin-bottom:20px;
+  }
+  .inputs{background:#fff;padding:30px;border-right:1px solid var(--line);}
+  .results{background:#ffffff;color:var(--ink);padding:30px;position:sticky;top:0;border-left:3px solid var(--navy);}
+
+  fieldset{border:none;padding:0;margin:0 0 24px 0;}
+  legend{
+    font-size:12px;letter-spacing:1px;text-transform:uppercase;font-weight:bold;
+    color:var(--navy);padding:0 0 8px 0;border-bottom:2px solid var(--navy);width:100%;margin-bottom:14px;
+  }
+  .field{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px;}
+  .field label{font-size:13px;color:var(--ink);flex:1;}
+  .field .hint{display:block;font-size:11px;color:var(--muted);margin-top:2px;}
+  .field input{
+    width:130px;padding:8px 10px;border:1px solid #ccc;border-radius:4px;
+    font-size:14px;font-family:Arial,sans-serif;text-align:right;color:var(--ink);
+  }
+  .field input:focus{outline:2px solid var(--navy);border-color:var(--navy);}
+
+  .vacation-only, .longterm-only{display:none;}
+  body.mode-vacation .vacation-only{display:block;}
+  body.mode-longterm .longterm-only{display:block;}
+
+  .headline{margin-bottom:26px;}
+  .headline .figure{font-family:Georgia,serif;font-size:44px;font-weight:bold;line-height:1;}
+  .figure.negative{color:var(--red);}
+  .figure.positive{color:var(--good);}
+  .headline .label{font-size:12px;color:var(--muted);margin-top:6px;}
+
+  table.metrics{width:100%;border-collapse:collapse;font-size:13px;}
+  table.metrics td{padding:9px 0;border-bottom:1px solid var(--blue-border);color:var(--ink);}
+  table.metrics td:last-child{text-align:right;font-weight:bold;color:var(--navy);}
+
+  .disclaimer{
+    font-size:11px;color:var(--muted);line-height:1.6;margin-top:22px;
+    padding-top:16px;border-top:1px solid var(--blue-border);
+  }
+
+  @media (max-width:800px){
+    .grid{grid-template-columns:1fr;}
+    .results{position:static;}
+  }
+
+  footer{
+    background:var(--navy);color:#c9d6e3;font-size:11px;
+    padding:24px 0;text-align:center;margin-top:20px;
+  }
+
+  /* ---------- SUBSCRIBE BOX ---------- */
+  .subscribe{
+    border:1px solid var(--line);border-left:3px solid var(--navy);
+    background:#ffffff;padding:26px 30px;margin:8px 0 28px 0;
+  }
+  .subscribe-inner{
+    display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;
+  }
+  .subscribe-text{flex:1;min-width:260px;}
+  .subscribe .eyebrow{margin-bottom:8px;}
+  .subscribe h2{
+    font-family:Georgia,'Times New Roman',serif;font-size:21px;color:var(--navy);
+    margin:0 0 8px 0;line-height:1.3;
+  }
+  .subscribe-text p{font-size:13px;color:var(--muted);line-height:1.6;margin:0;max-width:440px;}
+  .subscribe-form{flex-shrink:0;min-width:280px;}
+  .subscribe-confirm{
+    display:none;font-size:13px;color:var(--good);font-weight:bold;margin:14px 0 0 0;
+  }
+  @media (max-width:600px){
+    .subscribe-form{width:100%;}
+  }
+</style>
+</head>
+<body class="mode-vacation">
+
+  <header>
+    <a class="wrap brand" href="index.html" style="text-decoration:none;">
+      <img src="https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/dc51bb59-2211-457e-baff-dc7121498e17/image.png?t=1784016305" alt="sun">
+      <span>Der Spanischtraum</span>
+    </a>
+  </header>
+
+  <div class="wrap">
+    <section class="hero">
+      <p class="eyebrow">Cashflow-Rechner</p>
+      <h1>Rechne die Zahlen für jede spanische Immobilie durch</h1>
+      <p>Fülle die Angaben zu Kauf, Finanzierung und Miete aus &mdash; das Ergebnis aktualisiert sich sofort. Wechsle zwischen Ferienvermietung und Langzeitmiete zum Vergleich.</p>
+
+      <section class="subscribe">
+        <div class="subscribe-inner">
+          <div class="subscribe-text">
+            <h2>Diese Inhalte und noch viel mehr in meinem Newsletter.</h2>
+          </div>
+          <div class="subscribe-form">
+            <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="b43c6d59-a4d4-4285-9fdd-faa19fef5155"></script>
+          </div>
+        </div>
+      </section>
+
+      <div class="toggle">
+        <button type="button" id="btn-vacation" class="active">Ferienvermietung</button>
+        <button type="button" id="btn-longterm">Langzeitmiete</button>
+      </div>
+    </section>
+
+    <div class="grid">
+      <div class="inputs">
+
+        <fieldset>
+          <legend>1. Kauf</legend>
+          <div class="field">
+            <label>Kaufpreis<span class="hint">Angebotspreis der Immobilie</span></label>
+            <input type="number" id="price" value="360000" step="1000">
+          </div>
+          <div class="field">
+            <label>Kaufnebenkosten<span class="hint">Steuer, Notar, Grundbuch (%)</span></label>
+            <input type="number" id="buyingCostsPct" value="10" step="0.1">
+          </div>
+          <div class="field">
+            <label>Erwartete Renovierung<span class="hint">Möblierung / Sanierung</span></label>
+            <input type="number" id="renovation" value="8000" step="500">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. Finanzierung</legend>
+          <div class="field">
+            <label>Beleihungsquote<span class="hint">% des Preises finanziert</span></label>
+            <input type="number" id="ltv" value="70" step="1">
+          </div>
+          <div class="field">
+            <label>Zinssatz<span class="hint">Jährlich, %</span></label>
+            <input type="number" id="rate" value="2.85" step="0.05">
+          </div>
+          <div class="field">
+            <label>Laufzeit<span class="hint">Jahre</span></label>
+            <input type="number" id="term" value="25" step="1">
+          </div>
+        </fieldset>
+
+        <fieldset class="vacation-only">
+          <legend>3. Mieteinnahmen &ndash; Ferienvermietung</legend>
+          <div class="field">
+            <label>Durchschn. Tagesmiete</label>
+            <input type="number" id="nightlyRate" value="160" step="5">
+          </div>
+          <div class="field">
+            <label>Belegte Nächte / Jahr</label>
+            <input type="number" id="nights" value="150" step="5">
+          </div>
+        </fieldset>
+
+        <fieldset class="longterm-only">
+          <legend>3. Mieteinnahmen &ndash; Langzeitmiete</legend>
+          <div class="field">
+            <label>Kaltmiete pro Monat<span class="hint">Monatliche Kaltmiete</span></label>
+            <input type="number" id="monthlyRent" value="1300" step="25">
+          </div>
+          <div class="field">
+            <label>Leerstandsquote<span class="hint">% des Jahres unbewohnt</span></label>
+            <input type="number" id="vacancy" value="4" step="0.5">
+          </div>
+        </fieldset>
+
+        <fieldset class="vacation-only">
+          <legend>4. Laufende Kosten &ndash; Ferienvermietung (monatlich)</legend>
+          <div class="field">
+            <label>Verwaltung/Plattformgebühr<span class="hint">% der Mieteinnahmen</span></label>
+            <input type="number" id="mgmtPctV" value="20" step="1">
+          </div>
+          <div class="field">
+            <label>Grundsteuer (IBI)<span class="hint">Pro Jahr</span></label>
+            <input type="number" id="ibiV" value="900" step="50">
+          </div>
+          <div class="field">
+            <label>Gemeinschaftskosten<span class="hint">Pro Monat</span></label>
+            <input type="number" id="commV" value="130" step="10">
+          </div>
+          <div class="field">
+            <label>Versicherung<span class="hint">Pro Jahr</span></label>
+            <input type="number" id="insV" value="300" step="25">
+          </div>
+          <div class="field">
+            <label>Instandhaltung<span class="hint">% vom Preis / Jahr</span></label>
+            <input type="number" id="maintPctV" value="1.5" step="0.1">
+          </div>
+          <div class="field">
+            <label>Nebenkosten &amp; Reinigung<span class="hint">Nicht an Gast weitergegeben</span></label>
+            <input type="number" id="utilitiesV" value="120" step="10">
+          </div>
+          <div class="field">
+            <label>Renovierung Abschreibung<span class="hint">Monate</span></label>
+            <input type="number" id="renoMonthsV" value="60" step="6">
+          </div>
+        </fieldset>
+
+        <fieldset class="longterm-only">
+          <legend>4. Laufende Kosten &ndash; Langzeitmiete (monatlich)</legend>
+          <div class="field">
+            <label>Verwaltungsgebühr<span class="hint">% der Mieteinnahmen</span></label>
+            <input type="number" id="mgmtPctL" value="6" step="0.5">
+          </div>
+          <div class="field">
+            <label>Grundsteuer (IBI)<span class="hint">Pro Jahr</span></label>
+            <input type="number" id="ibiL" value="900" step="50">
+          </div>
+          <div class="field">
+            <label>Gemeinschaftskosten<span class="hint">Pro Monat</span></label>
+            <input type="number" id="commL" value="130" step="10">
+          </div>
+          <div class="field">
+            <label>Versicherung<span class="hint">Pro Jahr</span></label>
+            <input type="number" id="insL" value="300" step="25">
+          </div>
+          <div class="field">
+            <label>Mietausfallversicherung<span class="hint">Pro Jahr</span></label>
+            <input type="number" id="impago" value="250" step="25">
+          </div>
+          <div class="field">
+            <label>Instandhaltung<span class="hint">% vom Preis / Jahr</span></label>
+            <input type="number" id="maintPctL" value="1" step="0.1">
+          </div>
+          <div class="field">
+            <label>Renovierung Abschreibung<span class="hint">Monate</span></label>
+            <input type="number" id="renoMonthsL" value="60" step="6">
+          </div>
+        </fieldset>
+
+      </div>
+
+      <div class="results">
+        <div class="headline">
+          <div class="figure" id="cashflowFigure">&euro;0</div>
+          <div class="label">Netto-Cashflow pro Monat, nach Hypothek</div>
+        </div>
+
+        <table class="metrics">
+          <tr><td>Gesamtinvestition</td><td id="r-totalInvest">&euro;0</td></tr>
+          <tr><td>Eigenkapital benötigt</td><td id="r-equity">&euro;0</td></tr>
+          <tr><td>Monatliche Hypothekenrate</td><td id="r-mortgage">&euro;0</td></tr>
+          <tr><td>Bruttomieteinnahmen (jährlich)</td><td id="r-grossAnnual">&euro;0</td></tr>
+          <tr><td>Netto-Betriebsergebnis (monatlich)</td><td id="r-noi">&euro;0</td></tr>
+          <tr><td>Bruttorendite</td><td id="r-grossYield">0%</td></tr>
+          <tr><td>Nettorendite</td><td id="r-netYield">0%</td></tr>
+          <tr><td>Eigenkapitalrendite</td><td id="r-coc">0%</td></tr>
+        </table>
+
+        <p class="disclaimer">
+          Dies ist ein vereinfachtes Modell zur Orientierung &mdash; keine Anlage- oder Steuerberatung.
+          Bitte prüfe reale IBI-, Gemeinschafts- und Finanzierungskosten vor einer Entscheidung.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Der Spanischtraum &middot; Cashflow-Rechner &middot; Werte sind Schätzungen, keine Garantie.
+  </footer>
+
+<script>
+(function(){
+  var body = document.body;
+  var btnVacation = document.getElementById('btn-vacation');
+  var btnLongterm = document.getElementById('btn-longterm');
+
+  btnVacation.addEventListener('click', function(){
+    body.classList.remove('mode-longterm');
+    body.classList.add('mode-vacation');
+    btnVacation.classList.add('active');
+    btnLongterm.classList.remove('active');
+    calculate();
+  });
+  btnLongterm.addEventListener('click', function(){
+    body.classList.remove('mode-vacation');
+    body.classList.add('mode-longterm');
+    btnLongterm.classList.add('active');
+    btnVacation.classList.remove('active');
+    calculate();
+  });
+
+  function num(id){
+    var el = document.getElementById(id);
+    var v = parseFloat(el.value);
+    return isNaN(v) ? 0 : v;
+  }
+
+  function eur(n){
+    var sign = n < 0 ? '\u2212' : '';
+    return sign + '\u20AC' + Math.abs(Math.round(n)).toLocaleString('en-US');
+  }
+  function pct(n){
+    return (n*100).toFixed(2) + '%';
+  }
+
+  function pmt(rateMonthly, nper, pv){
+    if (rateMonthly === 0) return pv / nper;
+    return (rateMonthly * pv) / (1 - Math.pow(1 + rateMonthly, -nper));
+  }
+
+  function calculate(){
+    var price = num('price');
+    var buyingCostsPct = num('buyingCostsPct') / 100;
+    var renovation = num('renovation');
+    var totalInvest = price * (1 + buyingCostsPct) + renovation;
+
+    var ltv = num('ltv') / 100;
+    var rate = num('rate') / 100;
+    var term = num('term');
+    var loan = price * ltv;
+    var equity = totalInvest - loan;
+    var mortgage = pmt(rate/12, term*12, loan);
+
+    var isVacation = body.classList.contains('mode-vacation');
+    var grossAnnual, grossMonthly, opex;
+
+    if (isVacation) {
+      var nightlyRate = num('nightlyRate');
+      var nights = num('nights');
+      grossAnnual = nightlyRate * nights;
+      grossMonthly = grossAnnual / 12;
+
+      var mgmt = grossMonthly * (num('mgmtPctV')/100);
+      var ibiM = num('ibiV') / 12;
+      var comm = num('commV');
+      var insM = num('insV') / 12;
+      var maintM = price * (num('maintPctV')/100) / 12;
+      var utilities = num('utilitiesV');
+      var renoM = renovation / Math.max(num('renoMonthsV'), 1);
+      opex = mgmt + ibiM + comm + insM + maintM + utilities + renoM;
+    } else {
+      var monthlyRent = num('monthlyRent');
+      var vacancy = num('vacancy') / 100;
+      grossAnnual = monthlyRent * 12 * (1 - vacancy);
+      grossMonthly = grossAnnual / 12;
+
+      var mgmtL = grossMonthly * (num('mgmtPctL')/100);
+      var ibiML = num('ibiL') / 12;
+      var commL = num('commL');
+      var insML = num('insL') / 12;
+      var impagoM = num('impago') / 12;
+      var maintML = price * (num('maintPctL')/100) / 12;
+      var renoML = renovation / Math.max(num('renoMonthsL'), 1);
+      opex = mgmtL + ibiML + commL + insML + impagoM + maintML + renoML;
+    }
+
+    var noi = grossMonthly - opex;
+    var netCashflow = noi - mortgage;
+
+    var grossYield = price !== 0 ? grossAnnual / price : 0;
+    var netYield = totalInvest !== 0 ? (noi*12) / totalInvest : 0;
+    var coc = equity !== 0 ? (netCashflow*12) / equity : 0;
+
+    var fig = document.getElementById('cashflowFigure');
+    fig.textContent = eur(netCashflow);
+    fig.className = 'figure ' + (netCashflow < 0 ? 'negative' : 'positive');
+
+    document.getElementById('r-totalInvest').textContent = eur(totalInvest);
+    document.getElementById('r-equity').textContent = eur(equity);
+    document.getElementById('r-mortgage').textContent = eur(mortgage);
+    document.getElementById('r-grossAnnual').textContent = eur(grossAnnual);
+    document.getElementById('r-noi').textContent = eur(noi);
+    document.getElementById('r-grossYield').textContent = pct(grossYield);
+    document.getElementById('r-netYield').textContent = pct(netYield);
+    document.getElementById('r-coc').textContent = pct(coc);
+  }
+
+  document.querySelectorAll('input[type="number"]').forEach(function(el){
+    el.addEventListener('input', calculate);
+  });
+
+  calculate();
+})();
+</script>
+
+</body>
+</html>
