@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renovierungskosten-Rechner | Der Spanischtraum</title>
+<style>
+  :root{
+    --navy:#16324f;
+    --navy-deep:#0e2338;
+    --red:#C60B1E;
+    --paper:#F3ECDD;
+    --ink:#1a1a1a;
+    --muted:#666666;
+    --line:#e2ded0;
+    --good:#1f7a4d;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    font-family:Arial, Helvetica, sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  header{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    padding:26px 0;
+  }
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .brand img{width:30px;height:30px;display:block;}
+  .brand span{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:20px;font-weight:bold;color:#fff;letter-spacing:0.3px;
+  }
+
+  .hero{padding:40px 0 4px 0;}
+  .eyebrow{
+    font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--red);font-weight:bold;margin:0 0 10px 0;
+  }
+  h1{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:clamp(26px,4vw,36px);
+    line-height:1.15;color:var(--navy);margin:0 0 10px 0;
+  }
+  .hero p{color:var(--muted);font-size:14px;max-width:600px;line-height:1.6;margin:0 0 28px 0;}
+
+  .toggle{
+    display:inline-flex;border:1px solid var(--navy);border-radius:999px;
+    overflow:hidden;margin-bottom:32px;
+  }
+  .toggle button{
+    font-family:Arial,sans-serif;font-size:13px;font-weight:bold;
+    padding:10px 22px;border:none;background:#fff;color:var(--navy);
+    cursor:pointer;letter-spacing:0.3px;
+  }
+  .toggle button.active{background:var(--navy);color:#fff;}
+
+  .grid{
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:0;
+    border:1px solid var(--line);margin-bottom:20px;
+  }
+  .inputs{background:#fff;padding:30px;border-right:1px solid var(--line);}
+  .results{background:#fff;padding:30px;position:sticky;top:0;border-left:3px solid var(--navy);}
+
+  fieldset{border:none;padding:0;margin:0 0 24px 0;}
+  legend{
+    font-size:12px;letter-spacing:1px;text-transform:uppercase;font-weight:bold;
+    color:var(--navy);padding:0 0 8px 0;border-bottom:2px solid var(--navy);width:100%;margin-bottom:14px;
+  }
+  .field{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px;}
+  .field label{font-size:13px;color:var(--ink);flex:1;}
+  .field .hint{display:block;font-size:11px;color:var(--muted);margin-top:2px;}
+  .field input{
+    width:130px;padding:8px 10px;border:1px solid #ccc;border-radius:4px;
+    font-size:14px;font-family:Arial,sans-serif;text-align:right;color:var(--ink);
+  }
+  .field input:focus{outline:2px solid var(--navy);border-color:var(--navy);}
+
+  .levels{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:8px;}
+  .level-card{
+    border:1px solid #ccc;border-radius:4px;padding:14px 10px;text-align:center;
+    cursor:pointer;background:#fff;
+  }
+  .level-card.selected{border-color:var(--navy);border-width:2px;background:var(--paper);}
+  .level-card .name{font-size:12px;font-weight:bold;color:var(--navy);margin-bottom:4px;}
+  .level-card .range{font-size:11px;color:var(--muted);}
+
+  
+  .headline{margin-bottom:26px;}
+  .headline .figure{font-family:Georgia,serif;font-size:40px;font-weight:bold;line-height:1;color:var(--navy);}
+  .headline .range{font-size:14px;color:var(--muted);margin-top:6px;}
+  .headline .label{font-size:12px;color:var(--muted);margin-top:10px;}
+
+  table.metrics{width:100%;border-collapse:collapse;font-size:13px;}
+  table.metrics td{padding:9px 0;border-bottom:1px solid var(--line);color:var(--ink);}
+  table.metrics td:last-child{text-align:right;font-weight:bold;color:var(--navy);}
+
+  .disclaimer{
+    font-size:11px;color:var(--muted);line-height:1.6;margin-top:22px;
+    padding-top:16px;border-top:1px solid var(--line);
+  }
+
+  @media (max-width:800px){
+    .grid{grid-template-columns:1fr;}
+    .results{position:static;border-left:none;border-top:3px solid var(--navy);}
+    .levels{grid-template-columns:1fr;}
+  }
+
+  footer{
+    background:var(--navy);color:#c9d6e3;font-size:11px;
+    padding:24px 0;text-align:center;margin-top:20px;
+  }
+
+  /* ---------- SUBSCRIBE BOX ---------- */
+  .subscribe{
+    border:1px solid var(--line);border-left:3px solid var(--navy);
+    background:#ffffff;padding:26px 30px;margin:20px 0 28px 0;
+  }
+  .subscribe-inner{
+    display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;
+  }
+  .subscribe-text{flex:1;min-width:260px;}
+  .subscribe h2{
+    font-family:Georgia,'Times New Roman',serif;font-size:21px;color:var(--navy);
+    margin:0 0 8px 0;line-height:1.3;
+  }
+  .subscribe-text p{font-size:13px;color:var(--muted);line-height:1.6;margin:0;max-width:440px;}
+  .subscribe-form{flex-shrink:0;min-width:280px;}
+  @media (max-width:600px){
+    .subscribe-form{width:100%;}
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <a class="wrap brand" href="index.html">
+      <img src="https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/dc51bb59-2211-457e-baff-dc7121498e17/image.png?t=1784016305" alt="sun">
+      <span>Der Spanischtraum</span>
+    </a>
+  </header>
+
+  <div class="wrap">
+    <section class="hero">
+      <p class="eyebrow">Renovierungskosten-Rechner</p>
+      <h1>Was kostet die Renovierung wirklich?</h1>
+      <p>Rechne einzelne Gewerke zusammen, um eine detaillierte Sch&auml;tzung der Renovierungskosten zu erhalten. Das Ergebnis kannst du direkt in den Cashflow-Rechner &uuml;bernehmen. Unsicher, was ein Inserat wirklich braucht? Schau dir zuerst unseren <a href="reform-fotos-guide.html" style="color:var(--red);text-decoration:underline;">Guide zur Einsch&auml;tzung anhand von Fotos</a> an.</p>
+
+      <section class="subscribe">
+        <div class="subscribe-inner">
+          <div class="subscribe-text">
+            <h2>Diese Inhalte und noch viel mehr in meinem Newsletter.</h2>
+          </div>
+          <div class="subscribe-form">
+            <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="b43c6d59-a4d4-4285-9fdd-faa19fef5155"></script>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <div class="grid">
+      <div class="inputs">
+
+        <fieldset>
+          <legend>Küche</legend>
+          <div class="field">
+            <label>Küche komplett erneuern<span class="hint">Pauschal &middot; Richtwert: 8.000&ndash;15.000 &euro;</span></label>
+            <input type="number" id="kitchen" value="0" step="500">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Badezimmer</legend>
+          <div class="field">
+            <label>Anzahl Badezimmer</label>
+            <input type="number" id="bathCount" value="0" step="1">
+          </div>
+          <div class="field">
+            <label>Kosten pro Bad<span class="hint">Pauschal je Bad</span></label>
+            <input type="number" id="bathCost" value="6000" step="500">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Böden</legend>
+          <div class="field">
+            <label>Fläche Bodenbelag<span class="hint">m&sup2;</span></label>
+            <input type="number" id="floorArea" value="0" step="5">
+          </div>
+          <div class="field">
+            <label>Preis pro m&sup2;</label>
+            <input type="number" id="floorRate" value="40" step="5">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Fenster</legend>
+          <div class="field">
+            <label>Anzahl Fenster</label>
+            <input type="number" id="windowCount" value="0" step="1">
+          </div>
+          <div class="field">
+            <label>Preis pro Fenster<span class="hint">Doppelverglasung</span></label>
+            <input type="number" id="windowRate" value="450" step="50">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Installationen</legend>
+          <div class="field">
+            <label>Elektroinstallation erneuern<span class="hint">Pauschal, gesamte Wohnung &middot; Richtwert: 3.000&ndash;6.000 &euro;</span></label>
+            <input type="number" id="electric" value="0" step="500">
+          </div>
+          <div class="field">
+            <label>Sanit&auml;rinstallation/Rohre erneuern<span class="hint">Pauschal, gesamte Wohnung &middot; Richtwert: 3.000&ndash;6.000 &euro;</span></label>
+            <input type="number" id="plumbing" value="0" step="500">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Struktur &amp; Feuchtigkeit</legend>
+          <div class="field">
+            <label>Reserve f&uuml;r Feuchtigkeit/Statik<span class="hint">Nur falls im Inserat/Besichtigung Anzeichen sichtbar &mdash; stark variabel, immer vorab pr&uuml;fen lassen</span></label>
+            <input type="number" id="structural" value="0" step="500">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Malerarbeiten &amp; Sonstiges</legend>
+          <div class="field">
+            <label>Malerarbeiten<span class="hint">Fl&auml;che in m&sup2;</span></label>
+            <input type="number" id="paintArea" value="0" step="5">
+          </div>
+          <div class="field">
+            <label>Preis pro m&sup2;</label>
+            <input type="number" id="paintRate" value="18" step="5">
+          </div>
+          <div class="field">
+            <label>Unvorhergesehenes<span class="hint">% Puffer auf die Summe</span></label>
+            <input type="number" id="contingency" value="10" step="1">
+          </div>
+        </fieldset>
+
+      </div>
+
+      <div class="results">
+        <div class="headline">
+          <div class="figure" id="detailedTotal">&euro;0</div>
+          <div class="label">Gesch&auml;tzte Renovierungskosten, inkl. Puffer</div>
+        </div>
+        <table class="metrics">
+          <tr><td>K&uuml;che</td><td id="d-kitchen">&euro;0</td></tr>
+          <tr><td>B&auml;der</td><td id="d-bath">&euro;0</td></tr>
+          <tr><td>B&ouml;den</td><td id="d-floor">&euro;0</td></tr>
+          <tr><td>Fenster</td><td id="d-window">&euro;0</td></tr>
+          <tr><td>Elektrik &amp; Sanit&auml;r</td><td id="d-installations">&euro;0</td></tr>
+          <tr><td>Struktur/Feuchtigkeit</td><td id="d-structural">&euro;0</td></tr>
+          <tr><td>Malerarbeiten</td><td id="d-paint">&euro;0</td></tr>
+          <tr><td>Zwischensumme</td><td id="d-subtotal">&euro;0</td></tr>
+          <tr><td>Puffer</td><td id="d-contingency">&euro;0</td></tr>
+        </table>
+
+        <p class="disclaimer">
+          Dies ist eine grobe Sch&auml;tzung zur Orientierung, basierend auf typischen Preisen in Spanien 2026 &mdash; keine verbindliche Kalkulation. Hol dir immer ein Angebot von einem lokalen Handwerker oder einer Baufirma vor einer Kaufentscheidung.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Der Spanischtraum &middot; Renovierungskosten-Rechner &middot; Werte sind Sch&auml;tzungen, keine Garantie. &middot;
+    <a href="datenschutz.html" style="color:#c9d6e3;">Datenschutz</a> &middot;
+    <a href="impressum.html" style="color:#c9d6e3;">Impressum</a>
+  </footer>
+
+<script>
+(function(){
+  function num(id){
+    var el = document.getElementById(id);
+    var v = parseFloat(el.value);
+    return isNaN(v) ? 0 : v;
+  }
+  function eur(n){
+    return '\u20AC' + Math.round(n).toLocaleString('de-DE');
+  }
+
+  function calculateDetailed(){
+    var kitchen = num('kitchen');
+    var bath = num('bathCount') * num('bathCost');
+    var floor = num('floorArea') * num('floorRate');
+    var win = num('windowCount') * num('windowRate');
+    var installations = num('electric') + num('plumbing');
+    var structural = num('structural');
+    var paint = num('paintArea') * num('paintRate');
+
+    var subtotal = kitchen + bath + floor + win + installations + structural + paint;
+    var contingencyAmount = subtotal * (num('contingency')/100);
+    var total = subtotal + contingencyAmount;
+
+    document.getElementById('d-kitchen').textContent = eur(kitchen);
+    document.getElementById('d-bath').textContent = eur(bath);
+    document.getElementById('d-floor').textContent = eur(floor);
+    document.getElementById('d-window').textContent = eur(win);
+    document.getElementById('d-installations').textContent = eur(installations);
+    document.getElementById('d-structural').textContent = eur(structural);
+    document.getElementById('d-paint').textContent = eur(paint);
+    document.getElementById('d-subtotal').textContent = eur(subtotal);
+    document.getElementById('d-contingency').textContent = eur(contingencyAmount);
+    document.getElementById('detailedTotal').textContent = eur(total);
+  }
+
+  document.querySelectorAll('.inputs input').forEach(function(el){
+    el.addEventListener('input', calculateDetailed);
+  });
+
+  calculateDetailed();
+})();
+</script>
+
+</body>
+</html>
