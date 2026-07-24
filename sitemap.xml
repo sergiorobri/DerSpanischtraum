@@ -8,44 +8,26 @@
   </url>
 
   <url>
-    <loc>https://derspanischtraum.de/beste-artikel.html</loc>
+    <loc>https://derspanischtraum.de/archive.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://derspanischtraum.de/rentner-behoerden-checkliste-spanien.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://derspanischtraum.de/10-fehler-hauskauf-spanien.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://derspanischtraum.de/umzug-spanien-eu-buerger.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://derspanischtraum.de/rentner-umzug-spanien.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://derspanischtraum.de/newsletters/ausgabe-01.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://derspanischtraum.de/mietrendite-staedte-spanien.html</loc>
-    <changefreq>monthly</changefreq>
+    <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://derspanischtraum.de/mwcc-lebensqualitaet-de-final.html</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://derspanischtraum.de/maklergebuehren-mietvertrag-spanien.html</loc>
+    <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
 
@@ -56,31 +38,7 @@
   </url>
 
   <url>
-    <loc>https://derspanischtraum.de/renovierungskosten-rechner.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://derspanischtraum.de/reform-fotos-guide.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
     <loc>https://derspanischtraum.de/datenschutz.html</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
-  <url>
-    <loc>https://derspanischtraum.de/privacy-policy.html</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
-  </url>
-
-  <url>
-    <loc>https://derspanischtraum.de/impressum.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
